@@ -46,7 +46,7 @@
 project-root/
 ├── app.py # Streamlit 메인 앱
 ├── data/ # 문법 데이터셋 (전처리 후 jsonl 등)
-├── index/ # FAISS 벡터 인덱스 저장
+├── index/ # 벡터DB 인덱스 저장
 ├── rag_utils.py # 검색 및 응답 생성 함수
 ├── requirements.txt
 └── README.md
