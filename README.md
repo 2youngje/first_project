@@ -24,7 +24,6 @@
 - Pandas, NumPy
 - Hugging Face Datasets(X) -> 타 사이트 데이터셋
 
-<div>
 ## 📂 폴더 구조
 '''
 ai-currency-arbitrage/
@@ -55,7 +54,6 @@ ai-currency-arbitrage/
 ├── README.md                 # 프로젝트 소개
 └── .gitignore                # Git에 올리지 않을 파일들
 '''
-</div>
 
 ## 🚀 설치 및 실행 방법
 ...
