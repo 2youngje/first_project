@@ -10,6 +10,7 @@
 <div align="center">
 	<img src="https://img.shields.io/badge/python-007396?style=flat&logo=python&logoColor=white" />
 </div>
+
 # 🧠 Programming Syntax Assistant (프로그래밍 문법 도우미)
 
 > LLM + RAG 기반으로 다양한 프로그래밍 문법을 친절하게 설명해주는 문법 도우미 웹 앱입니다.
@@ -33,7 +34,7 @@
 |------------|------|
 | 언어       | Python 3.11.8 |
 | 백엔드     | OpenAI API or Hugging Face Transformers |
-| 검색엔진   | FAISS (Facebook AI Similarity Search) |
+| vectorDB  | chromaDB |
 | 데이터     | Hugging Face Datasets (`code_search_net`, `mbpp`) |
 | 프론트엔드 | Streamlit |
 
