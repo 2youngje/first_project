@@ -1,1 +1,6 @@
-__pycache__/\n*.pyc\n.env\n
+# Python 관련
+__pycache__/
+*.pyc
+
+# 환경 파일
+.env
