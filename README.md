@@ -43,7 +43,7 @@ Upstage의 **Solar LLM**, **Chroma 벡터DB**, 그리고 **Streamlit**을 활용
 ```
 .
 ├── recipe_bot.py     # 메인 코드
-├── requirements.txt  # 의존성 목록
+├── requirements.txt  # 파이썬 라이브러리 설치 목록
 ├── .env              # API 키 저장용 (개별 생성) -> .gitignore로 github에는 안올라감 
 └── README.md         # 프로젝트 소개 및 개발 현황
 ```
