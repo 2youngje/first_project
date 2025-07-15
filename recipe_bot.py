@@ -27,7 +27,7 @@ if "id" not in st.session_state:
 st.title("🍳요리 레시피 챗봇")
 st.markdown("예: ‘김치볶음밥 만드는 법 알려줘’, ‘두부로 만들 수 있는 요리 있어?’")
 
-# 📖 레시피 데이터 정의
+# 레시피 데이터 정의
 recipes: List[Document] = [
     Document(page_content="김치볶음밥: 밥, 김치, 참기름, 간장, 설탕, 대파, 계란을 사용해 볶음밥을 만든다."),
     Document(page_content="된장찌개: 된장, 두부, 애호박, 양파, 고추, 마늘 등을 넣고 끓인다."),
@@ -36,12 +36,12 @@ recipes: List[Document] = [
     Document(page_content="떡볶이: 떡, 고추장, 고춧가루, 어묵, 양파, 설탕을 넣고 자작하게 끓인다."),
 ]
 
-# 🔍 벡터스토어 및 리트리버 생성
+# 벡터스토어 및 리트리버 생성
 vectorstore = Chroma.from_documents(recipes, UpstageEmbeddings(model="solar-embedding-1-large"))
 retriever = vectorstore.as_retriever(k=2)
 chat = ChatUpstage(upstage_api_key=api_key)
 
-# 🔧 프롬프트 정의
+# 프롬프트 정의
 contextualize_q_system_prompt = """사용자의 요리 관련 질문이 이전 대화와 관련이 있으면, 독립적인 질문으로 다시 구성하세요. 답변은 하지 마세요."""
 contextualize_q_prompt = ChatPromptTemplate.from_messages([
     ("system", contextualize_q_system_prompt),
@@ -63,12 +63,12 @@ qa_prompt = ChatPromptTemplate.from_messages([
 question_answer_chain = create_stuff_documents_chain(chat, qa_prompt)
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
-# 💬 기존 메세지 출력
+# 기존 메세지 출력
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# 💬 채팅 입력
+# 채팅 입력
 if prompt := st.chat_input("요리에 대해 궁금한 걸 물어보세요!"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -92,3 +92,5 @@ if prompt := st.chat_input("요리에 대해 궁금한 걸 물어보세요!"):
         message_placeholder.markdown(full_response)
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+# 초기 : 사이드 바 제거(메인 화면에서 구동 할 수 있게)
