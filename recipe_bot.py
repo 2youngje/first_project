@@ -16,6 +16,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from langchain_community.document_loaders import PyPDFLoader
 import tempfile
+import time
 
 # .env 파일에서 API 키 불러오기
 load_dotenv()
@@ -122,23 +123,27 @@ if prompt := st.chat_input("요리에 대해 궁금한 걸 물어보세요!"):
         message_placeholder = st.empty()
         full_response = ""
 
-        # RAG 체인 호출
-        result = rag_chain.invoke({
-            "input": prompt,
-            "chat_history": st.session_state.messages,
-        })
+    # 작성 중... 스피너 표시
+        with st.spinner("작성 중..."):
+            result = rag_chain.invoke({
+                "input": prompt,
+                "chat_history": st.session_state.messages,
+            })
 
-        # 검색된 문서 내용 펼쳐보기
+        # 완료되면 결과 출력
         with st.expander("🔎 참고한 레시피 문서 보기"):
             st.write(result["context"])
+
+            full_response = result["answer"]
+            message_placeholder.markdown(full_response)
 
         # 응답을 한 단어씩 출력 (타자 치는 효과)
         for chunk in result["answer"].split(" "):
             full_response += chunk + " "
             message_placeholder.markdown(full_response + "▌")
+            time.sleep(0.08)  # 타자 속도 조절 (optional)
         message_placeholder.markdown(full_response)
 
     # 어시스턴트 답변 저장
     st.session_state.messages.append({"role": "assistant", "content": full_response})
-
-    # 주석 추가
+    
