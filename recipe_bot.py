@@ -14,6 +14,9 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
+from langchain_community.document_loaders import PyPDFLoader
+import tempfile
+
 # .env 파일에서 API 키 불러오기
 load_dotenv()
 api_key = os.getenv("UPSTAGE_API_KEY")
@@ -23,19 +26,44 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "id" not in st.session_state:
     st.session_state.id = uuid.uuid4()
+    
+# 사이드바: PDF 업로드
+st.sidebar.header("📎 레시피 PDF 업로드")
+uploaded_file = st.sidebar.file_uploader("PDF 파일을 업로드하세요", type="pdf")
+
+# PDF 문서 -> List[Document] 변환
+if uploaded_file is not None:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+        tmp_file.write(uploaded_file.read())
+        tmp_path = tmp_file.name
+
+    loader = PyPDFLoader(tmp_path)
+    recipes: List[Document] = loader.load()  # ✅ 이 줄이 핵심: 업로드된 PDF가 recipes가 됨
+    st.sidebar.success("✅ PDF에서 레시피 로딩 완료!")
+
+    # 3. 벡터스토어 생성
+    vectorstore = Chroma.from_documents(recipes, UpstageEmbeddings(model="solar-embedding-1-large"))
+    retriever = vectorstore.as_retriever(k=2)
+
+    # 이하 그대로 RAG 체인 구성, 채팅 로직 등 사용 가능
+    ...
+else:
+    st.warning("👈 좌측 사이드바에서 PDF 파일을 업로드해주세요!")
+    st.stop()
 
 # 앱 제목 및 안내 문구 출력
 st.title("🍳 집에서 만들어 먹는 요리 레시피 챗봇")
 st.markdown("예: ‘김치볶음밥 만드는 법 알려줘’, ‘두부로 만들 수 있는 요리 있어?’")
 
 # 레시피 문서 정의 (고정된 문서들) -> 이 기능을 pdf를 가져와서 실행하는 고도화를 진행해야한다....
-recipes: List[Document] = [
-    Document(page_content="김치볶음밥: 밥, 김치, 참기름, 간장, 설탕, 대파, 계란을 사용해 볶음밥을 만든다."),
-    Document(page_content="된장찌개: 된장, 두부, 애호박, 양파, 고추, 마늘 등을 넣고 끓인다."),
-    Document(page_content="계란말이: 계란, 당근, 파, 소금을 넣고 얇게 부쳐 돌돌 만다."),
-    Document(page_content="부침개: 부침가루, 물, 야채(부추, 양파 등), 소금을 넣고 팬에 부쳐 완성."),
-    Document(page_content="떡볶이: 떡, 고추장, 고춧가루, 어묵, 양파, 설탕을 넣고 자작하게 끓인다."),
-]
+# recipes: List[Document] = [
+#     Document(page_content="김치볶음밥: 밥, 김치, 참기름, 간장, 설탕, 대파, 계란을 사용해 볶음밥을 만든다."),
+#     Document(page_content="된장찌개: 된장, 두부, 애호박, 양파, 고추, 마늘 등을 넣고 끓인다."),
+#     Document(page_content="계란말이: 계란, 당근, 파, 소금을 넣고 얇게 부쳐 돌돌 만다."),
+#     Document(page_content="부침개: 부침가루, 물, 야채(부추, 양파 등), 소금을 넣고 팬에 부쳐 완성."),
+#     Document(page_content="떡볶이: 떡, 고추장, 고춧가루, 어묵, 양파, 설탕을 넣고 자작하게 끓인다."),
+# ]
+# 이 부분은 사이드 바가 되는 것이다.
 
 # 문서를 임베딩하여 벡터스토어 생성 (Chroma + Solar 임베딩)
 vectorstore = Chroma.from_documents(recipes, UpstageEmbeddings(model="solar-embedding-1-large"))
