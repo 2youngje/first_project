@@ -56,11 +56,12 @@ Upstage의 **Solar LLM**, **Chroma 벡터DB**, 그리고 **Streamlit**을 활용
 pip install -r requirements.txt
 
 ```
+2. **.env 파일 생성**
 
 ```env
 UPSTAGE_API_KEY=your_upstage_api_key_here
 ```
-
+3. **앱 실행**
 
 ```bash
 streamlit run app.py
