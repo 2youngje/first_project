@@ -48,6 +48,24 @@ Upstage의 **Solar LLM**, **Chroma 벡터DB**, 그리고 **Streamlit**을 활용
 └── README.md         # 프로젝트 소개 및 개발 현황
 ```
 
+## 🚀 실행 방법
+
+1. **필요 라이브러리 설치**
+
+```bash
+pip install -r requirements.txt
+
+```
+
+```env
+UPSTAGE_API_KEY=your_upstage_api_key_here
+```
+
+
+```bash
+streamlit run app.py
+```
+
 ## 📌 TODO (추후 개선 예정)
 
 - [ ] **레시피 데이터 외부 JSON/CSV/PDF 에서 불러오기**  
