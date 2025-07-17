@@ -4,3 +4,9 @@ __pycache__/
 
 # 환경 파일
 .env
+
+# Chroma 벡터 DB 저장 디렉토리
+chroma_db/
+
+# 업로드된 PDF 저장 디렉토리
+uploaded_pdfs/
