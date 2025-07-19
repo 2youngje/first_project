@@ -10,3 +10,7 @@ chroma_db/
 
 # 업로드된 PDF 저장 디렉토리
 uploaded_pdfs/
+
+secrets.toml
+
+.streamlit/secrets.toml
