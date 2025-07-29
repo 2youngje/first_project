@@ -10,9 +10,12 @@ pipeline==0.1.0
 redis==6.2.0
 safetensors==0.5.3
 streamlit==1.46.1
-torch==2.7.1
 uvloop==0.21.0
 watchfiles==1.1.0
 websockets==15.0.1
 pysqlite3-binary
 unstructured
+pysqlite3
+python-dotenv
+transformers
+torch==2.0.1   # CPU 전용 버전 권장
