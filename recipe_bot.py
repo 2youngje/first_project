@@ -17,9 +17,9 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 from transformers import pipeline
 
-# SQLite 패키지 이슈 해결
-__import__('pysqlite3')
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# # SQLite 패키지 이슈 해결
+# __import__('pysqlite3')
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 # API 키 로딩 (Streamlit secrets 또는 .env)
 api_key = st.secrets.get("UPSTAGE_API_KEY", "")
