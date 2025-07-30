@@ -1,7 +1,11 @@
+# SQLite 패키지 이슈 해결
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import os
 import uuid
 import time
-import sys
 import re
 
 import streamlit as st
@@ -18,9 +22,8 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from transformers import pipeline
 import torch
 
-# SQLite 패키지 이슈 해결
-__import__('pysqlite3')
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+load_dotenv()
+os.environ["UPSTAGE_API_KEY"] = st.secrets["UPSTAGE_API_KEY"]
 
 # API 키 로딩 (Streamlit secrets 또는 .env)
 api_key = st.secrets.get("UPSTAGE_API_KEY", "")
