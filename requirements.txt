@@ -7,8 +7,8 @@ langchain-redis==0.2.3
 langchain-upstage==0.6.0
 matplotlib==3.10.3
 pip==25.1.1
-pysqlite3==0.5.4
-pysqlite3-binary==0.5.4
+pysqlite3
+pysqlite3-binary
 streamlit==1.46.1
 torch==2.7.1
 transformers==4.44.2
